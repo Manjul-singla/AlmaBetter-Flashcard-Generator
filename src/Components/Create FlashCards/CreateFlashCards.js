@@ -84,23 +84,23 @@ const CreateFlashCards = () => {
                 <div className=" w-96 px-3">
                   {/* it's a input field for create a group name  */}
                   <label
-                    className=" tracking-wide text-gray-500 font-bold "
+                    className=" tracking-wide text-gray-500 dark:text-gray-300 font-bold "
                     htmlFor="Create_Group"
                   >
                     Create Group*
                   </label>
                   <Field
-                    className="appearance-none block w-full my-2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="appearance-none block w-full my-2 bg-gray-50 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="Create_Group"
-                    name="Create_Group"
+                    name="CreateGroup"
                     type="text"
                     placeholder="Group Name"
                   />
                   {/* it's a component to show error massage of validation */}
                   <ErrorMessage
-                    className="text-red-600"
+                    className="text-red-400"
                     component="span"
-                    name="Create_Group"
+                    name="CreateGroup"
                   />
                 </div>
                 <div>
@@ -123,12 +123,10 @@ const CreateFlashCards = () => {
                   ) : (
                     <label
                       htmlFor="uploadimage"
-                      className="w-44 h-[38px]  cursor-pointer px-3 mx-3 mt-8 py-1 bg-gray-200 border-gray-200 flex  items-center justify-center  rounded"
+                      className="w-44 h-[38px]  cursor-pointer px-3 mx-3 mt-8 py-1 flex  items-center justify-center  rounded bg-red-500 hover:bg-red-700"
                     >
-                      <MdUploadFile className=" text-[2em] text-blue-700" />
-                      <span className="text-blue-700 font-bold">
-                        Upload Image
-                      </span>
+                      <MdUploadFile className=" text-[1.5em] text-white " />
+                      <span className="text-white font-bold">Upload Image</span>
                     </label>
                   )}
                   {/* it's input field for image upload */}
@@ -165,10 +163,10 @@ const CreateFlashCards = () => {
                 </div>
                 <div className="w-full my-2 px-3">
                   <label
-                    className=" tracking-wide  text-gray-500 font-bold "
+                    className=" tracking-wide  text-gray-500 dark:text-gray-300 font-bold "
                     htmlFor="description"
                   >
-                    Add description
+                    Add description*
                   </label>
                   {/* it's a input field for Add description */}
                   <Field
@@ -176,12 +174,12 @@ const CreateFlashCards = () => {
                     id="description"
                     name="description"
                     rows="3"
-                    className="block my-2 p-2.5 w-3/4 text-sm text-gray-700  rounded  border-gray-200  focus:border-gray-500 focus:bg-white bg-gray-200  "
+                    className="block my-2 p-2.5 w-3/4 text-sm text-gray-700  rounded  border-gray-500  focus:border-gray-500 focus:bg-white bg-gray-50  "
                     placeholder="Write your thoughts here..."
                   ></Field>
                   {/* it's a component to show error massage of validation */}
                   <ErrorMessage
-                    className="text-red-600"
+                    className="text-red-400"
                     component="span"
                     name="description"
                   />
@@ -197,147 +195,150 @@ const CreateFlashCards = () => {
                       <div className="flex  items-center justify-center h-9 w-9 my-5 rounded-full text-white bg-red-500 ">
                         {index + 1}
                       </div>
-                      <div className=" w-[410px] px-3">
-                        <label
-                          className=" tracking-wide text-gray-500 font-bold "
-                          htmlFor={`term.${index}.Enter_Term`}
-                        >
-                          Enter Term*
-                        </label>
-                        {/* it's a input field for Term Name */}
-                        <input
-                          ref={addRefs}
-                          className="appearance-none block w-full my-2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          name={`term.${index}.Enter_Term`}
-                          id={`term.${index}.Enter_Term`}
-                          value={term.Enter_Term}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          type="text"
-                          placeholder="Term Name"
-                        />
-                        {/* it's a component to show error massage of validation */}
-                        <ErrorMessage
-                          className="text-red-600"
-                          component="span"
-                          name={`term.${index}.Enter_Term`}
-                        />
-                      </div>
-                      <div className=" w-[410px] px-3">
-                        <label
-                          className=" tracking-wide text-gray-500 font-bold "
-                          htmlFor={`term.${index}.Enter_Definition`}
-                        >
-                          Enter Definition*
-                        </label>
-                        {/* it's a input field for Add Term Definition */}
-                        <Field
-                          className="appearance-none block w-full my-2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id={`term.${index}.Enter_Definition`}
-                          name={`term.${index}.Enter_Definition`}
-                          value={term.Enter_Definition}
-                          type="text"
-                          placeholder="Term Definition"
-                        />
-                        {/* it's a component to show error massage of validation */}
-                        <ErrorMessage
-                          className="text-red-600"
-                          component="span"
-                          name={`term.${index}.Enter_Definition`}
-                        />
-                      </div>
-                      <div className="flex">
-                        {/* it's a image upload button 
+                      <div className="flex flex-col md:flex-row items-end">
+                        <div className=" lg:first-line:w-[410px] px-3">
+                          <label
+                            className=" tracking-wide text-gray-500 dark:text-gray-300 font-bold "
+                            htmlFor={`term.${index}.Enter_Term`}
+                          >
+                            Enter Term*
+                          </label>
+                          {/* it's a input field for Term Name */}
+                          <input
+                            ref={addRefs}
+                            className="appearance-none block w-full my-2 bg-gray-50 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            name={`term.${index}.Enter_Term`}
+                            id={`term.${index}.Enter_Term`}
+                            value={term.Enter_Term}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            type="text"
+                            placeholder="Term Name"
+                          />
+                          {/* it's a component to show error massage of validation */}
+                          <ErrorMessage
+                            className="text-red-400"
+                            component="span"
+                            name={`term.${index}.Enter_Term`}
+                          />
+                        </div>
+                        <div className=" lg:w-[410px] px-3">
+                          <label
+                            className=" tracking-wide text-gray-500 dark:text-gray-300 font-bold "
+                            htmlFor={`term.${index}.Enter_Definition`}
+                          >
+                            Enter Definition*
+                          </label>
+                          {/* it's a input field for Add Term Definition */}
+                          <Field
+                            className="appearance-none block w-full my-2 bg-gray-50 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id={`term.${index}.Enter_Definition`}
+                            name={`term.${index}.Enter_Definition`}
+                            value={term.Enter_Definition}
+                            type="text"
+                            placeholder="Term Definition"
+                          />
+                          {/* it's a component to show error massage of validation */}
+                          <ErrorMessage
+                            className="text-red-400"
+                            component="span"
+                            name={`term.${index}.Enter_Definition`}
+                          />
+                        </div>
+                        <div className="flex items-end">
+                          {/* it's a image upload button 
                           if image is present it's shows the image preview with delete icon to delete image 
                           if image is not present its shows image uploading button */}
-                        {term.term_uploadimage ? (
-                          <div className="flex  ">
-                            {" "}
-                            <img
-                              className="h-16 mt-2  max-w-[12rem]"
-                              src={term.term_uploadimage}
-                              alt=""
-                            />{" "}
-                            <TiDeleteOutline
-                              className="text-3xl text-red-600"
-                              onClick={() =>
-                                setFieldValue(
-                                  `term.${index}.term_uploadimage`,
-                                  ""
-                                )
-                              }
-                            />{" "}
-                          </div>
-                        ) : (
-                          <label
-                            htmlFor={`term.${index}.term_uploadimage`}
-                            className="w-44 h-[38px] cursor-pointer px-3 mx-3 py-1 bg-gray-200 border-gray-200 flex  items-center justify-center  rounded"
-                          >
-                            <span className="text-blue-700 font-bold">
-                              Select Image
-                            </span>
-                          </label>
-                        )}
-                        {/* it's a component to show error massage of validation */}
-                        <ErrorMessage
-                          className="text-red-600"
-                          component="span"
-                          name={`term.${index}.term_uploadimage`}
-                        />
-                        {/* it's input field for image upload */}
-                        <input
-                          onChange={(event) => {
-                            //  it's validation on image
-                            if (
-                              event.target.files[0] &&
-                              !SUPPORTED_FORMATS.includes(
-                                event.target.files[0].type
-                              )
-                            ) {
-                              imgError("unsupported file format");
-                            } else if (
-                              event.target.files[0].size >
-                              1024 * 1024 * 10
-                            ) {
-                              imgError("image size is very large");
-                            } else if (
-                              event.target.files[0].size <=
-                              1024 * 1024 * 10
-                            ) {
-                              const file = event.target.files[0];
-                              const reader = new FileReader();
-                              reader.readAsDataURL(file);
-                              reader.onload = () => {
-                                setFieldValue(
-                                  `term.${index}.term_uploadimage`,
-                                  reader.result
-                                );
-                              };
-                            }
-                          }}
-                          className="hidden"
-                          id={`term.${index}.term_uploadimage`}
-                          name={`term.${index}.term_uploadimage`}
-                          type="file"
-                        />
-                        <div>
-                          {/* it's a delete button to delete a term with a condition 
-                            if there is only one term present you can't delete the term */}
-                          {values.term.length <= 1 ? (
-                            ""
+                          {term.term_uploadimage ? (
+                            <div className="flex">
+                              {" "}
+                              <img
+                                className="h-16 mt-2  max-w-[12rem]"
+                                src={term.term_uploadimage}
+                                alt=""
+                              />{" "}
+                              <TiDeleteOutline
+                                className="text-3xl  text-red-600"
+                                onClick={() =>
+                                  setFieldValue(
+                                    `term.${index}.term_uploadimage`,
+                                    ""
+                                  )
+                                }
+                              />{" "}
+                            </div>
                           ) : (
-                            <MdDelete
-                              className="text-[1.8em] dark:text-blue-700 dark:hover:text-red-500 m-2 cursor-pointer hover:text-red-500"
-                              onClick={() => arrayHelpers.remove(index)}
-                            />
+                            <label
+                              htmlFor={`term.${index}.term_uploadimage`}
+                              className="w-44 my-2 h-[38px] cursor-pointer px-3 mx-3 py-1 flex  items-center justify-center  rounded
+                            bg-red-500 hover:bg-red-700  "
+                            >
+                              <span className="text-white font-bold">
+                                Select Image
+                              </span>
+                            </label>
                           )}
-                          {/* it's a edit button to edit a term */}
-                          <TbEdit
-                            className="text-[1.8em] text-blue-700 m-2 cursor-pointer hover:text-blue-900"
-                            onClick={() => {
-                              inputRef.current[index].focus();
-                            }}
+                          {/* it's a component to show error massage of validation */}
+                          <ErrorMessage
+                            className="text-red-400"
+                            component="span"
+                            name={`term.${index}.term_uploadimage`}
                           />
+                          {/* it's input field for image upload */}
+                          <input
+                            onChange={(event) => {
+                              //  it's validation on image
+                              if (
+                                event.target.files[0] &&
+                                !SUPPORTED_FORMATS.includes(
+                                  event.target.files[0].type
+                                )
+                              ) {
+                                imgError("unsupported file format");
+                              } else if (
+                                event.target.files[0].size >
+                                1024 * 1024 * 10
+                              ) {
+                                imgError("image size is very large");
+                              } else if (
+                                event.target.files[0].size <=
+                                1024 * 1024 * 10
+                              ) {
+                                const file = event.target.files[0];
+                                const reader = new FileReader();
+                                reader.readAsDataURL(file);
+                                reader.onload = () => {
+                                  setFieldValue(
+                                    `term.${index}.term_uploadimage`,
+                                    reader.result
+                                  );
+                                };
+                              }
+                            }}
+                            className="hidden"
+                            id={`term.${index}.term_uploadimage`}
+                            name={`term.${index}.term_uploadimage`}
+                            type="file"
+                          />
+                          <div>
+                            {/* it's a delete button to delete a term with a condition 
+                            if there is only one term present you can't delete the term */}
+                            {values.term.length <= 1 ? (
+                              ""
+                            ) : (
+                              <MdDelete
+                                className="text-[1.8em] m-2 cursor-pointer text-red-500 hover:text-red-700"
+                                onClick={() => arrayHelpers.remove(index)}
+                              />
+                            )}
+                            {/* it's a edit button to edit a term */}
+                            <TbEdit
+                              className="text-[1.8em] m-2 cursor-pointer text-red-500 hover:text-red-700"
+                              onClick={() => {
+                                inputRef.current[index].focus();
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -351,9 +352,9 @@ const CreateFlashCards = () => {
                         term_uploadimage: "",
                       })
                     }
-                    className="my-5 cursor-pointer w-24 mx-5 text-blue-700"
+                    className="my-5 cursor-pointer w-24 mx-5 dark:text-gray-300 hover:font-bold text-red-500 hover:text-red-700"
                   >
-                    <BsPlus className="inline-block" /> Add more
+                    <BsPlus className="inline-block h-1.8" /> Add more
                   </div>
                 </div>
               )}
@@ -362,9 +363,9 @@ const CreateFlashCards = () => {
               {/* it's a create button to create a flashcard */}
               <button
                 type="submit"
-                className="bg-red-600 hover:bg-red-700 font-bold py-2 px-14 rounded text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 text-center "
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               >
-                Create
+                Create Flash Card
               </button>
             </div>
           </Form>
