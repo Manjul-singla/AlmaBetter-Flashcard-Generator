@@ -1,36 +1,52 @@
-// this is cards details page
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { TfiBackRight } from "react-icons/tfi";
 import { BsCloudDownload } from "react-icons/bs";
 import { BsPrinter } from "react-icons/bs";
-import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import ShareModel from "./ShareModel";
-import { useState } from "react";
+import TermListItem from "./TermListItem";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Details_IMG from "./Images/Details_IMG.gif";
-import { IoIosArrowForward } from "react-icons/io";
 
 const FlashCardsDetails = () => {
-  // using useState for adding active class
+  const { id } = useParams();
+  const { cards } = useSelector((state) => state.flashcardReducers);
+  const carddata = cards.find((cards) => cards.id === id);
+
+  const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(0);
-  //  it's a function to reassign value to active
-  const handleClick = (event) => {
-    setActive(event);
+
+  const setCard = (newIndex) => {
+    const term = carddata.term[newIndex];
+    setTermDis(term.Enter_Definition);
+    setTermImg(term.term_uploadimage ? term.term_uploadimage : Details_IMG);
   };
 
-  // import useParams hook for catch id of the cards from url
-  const { id } = useParams();
-  // import useSelector from react-redux and access data from reducer
-  const { cards } = useSelector((state) => state.flashcardReducers);
-  // using find method  for find card which is selected by the user
-  const carddata = cards.find((cards) => cards.id === id);
-  // useEffect use for set Enter_Definition & term_uploadimage when carddata change
+  const nextCard = () => {
+    const isLastCard = active === carddata.term.length - 1;
+    const newIndex = isLastCard ? 0 : active + 1;
+    setActive(newIndex);
+    setCard(newIndex);
+  };
+
+  const prevCard = () => {
+    const isFirstCard = active === 0;
+    const newIndex = isFirstCard ? carddata.term.length - 1 : active - 1;
+    setActive(newIndex);
+    setCard(newIndex);
+  };
+
+  const displayTermDetails = (item, index) => {
+    setTermImg(item.term_uploadimage ? item.term_uploadimage : Details_IMG);
+    setTermDis(item.Enter_Definition);
+    handleClick(index);
+  };
+
   useEffect(() => {
     setTermDis(carddata.term[0].Enter_Definition);
-    // showing image upload by user if image is not uploaded by user it will be set default image
     setTermImg(
       carddata.term[0].term_uploadimage
         ? carddata.term[0].term_uploadimage
@@ -38,134 +54,90 @@ const FlashCardsDetails = () => {
     );
   }, [carddata]);
 
-  // use useState hook to set default image of term_uploadimage if image is not uploaded by user
-  const [TermImg, setTermImg] = useState(Details_IMG);
-  // use useState hook to set cards image of term_uploadimage
-  const [TermDis, setTermDis] = useState("");
-  // Setting image and definition on click on next and previous button
-  const setCard = (NewIndex) => {
-    setTermDis(carddata.term[NewIndex].Enter_Definition);
-    setTermImg(
-      carddata.term[NewIndex].term_uploadimage
-        ? carddata.term[NewIndex].term_uploadimage
-        : Details_IMG
-    );
+  const handleClick = (index) => {
+    setActive(index);
   };
-  // It's a function for next button
-  const nextCard = () => {
-    const isLastCard = active === carddata.term.length - 1;
-    const NewIndex = isLastCard ? 0 : active + 1;
-    setActive(NewIndex);
-    setCard(NewIndex);
-  };
-  // It's a function for previous button
-  const prevCard = () => {
-    const isFirstSlide = active === 0;
-    const NewIndex = isFirstSlide ? carddata.term.length - 1 : active - 1;
-    setActive(NewIndex);
-    setCard(NewIndex);
-  };
-  // function for set term image and term definition as well as call the function handelClick
-  function displayTermDetails(item, index) {
-    setTermImg(item.term_uploadimage ? item.term_uploadimage : Details_IMG);
-    setTermDis(item.Enter_Definition);
-    handleClick(index);
-  }
-  // import useNavigate for navigation
-  const navigate = useNavigate();
-  // using useState for share Button on click share it will be visible
-  const [visible, setVisible] = useState(false);
+
   const onClose = () => {
     setVisible(false);
   };
 
+  const [TermImg, setTermImg] = useState(Details_IMG);
+  const [TermDis, setTermDis] = useState("");
+
   return (
     <>
       <div className="pt-3 dark:text-white">
-        <span className="flex">
-          {/* navigate to My Flashcard card page  */}
+        <div className="flex items-center">
           <IoMdArrowRoundBack
             onClick={() => navigate(-1)}
-            className="text-2xl m-1 cursor-pointer hover:text-red-400 "
+            className="text-2xl m-1 cursor-pointer hover:text-red-400"
           />
-          <span className="font-bold text-xl px-3 dark:text-gray-300">
-            {/* display the name of group */}
+          <div className="font-bold text-xl px-3 dark:text-gray-300">
             {carddata.Create_Group}
-          </span>
-        </span>
-        <div className="pl-11 my-2 pr-4">
-          {/* display the description of  group name */}
-          {carddata.description}
+          </div>
+          <div className=" my-2 pr-4">{carddata.description}</div>
         </div>
-        {/* <div className="flex flex-wrap space-between"> */}
         <div className="flex flex-col lg:flex-row mt-4 lg:items-start">
-          <div className="bg-white dark:bg-gray-800 lg:mr-5  drop-shadow-md rounded-lg py-1 lg:h-[340px] my-4 px-3">
+          {/* Term List */}
+          <div className="bg-white dark:bg-gray-800 lg:mr-5 drop-shadow-md rounded-lg py-1 lg:h-[340px] my-4 px-3">
             <h1 className="font-bold m-2 dark:text-red-400">Flashcards</h1>
             <hr />
-            {/* display list of terms and onclick on terms calling the function displayTermDetails and applying active class  */}
-            {carddata.term.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  onClick={() => displayTermDetails(item, index)}
-                  className="p-3 font-medium cursor-pointer "
-                >
-                  {/* applying active class on the term where you clicked  */}
-                  <div className={active === index ? "activeTerm" : undefined}>
-                    <IoIosArrowForward className=" icon hidden mr-1" />
-                    {item.Enter_Term}
-                  </div>
-                </div>
-              );
-            })}
+            {carddata.term.map((item, index) => (
+              <TermListItem
+                key={index}
+                item={item}
+                index={index}
+                active={active}
+                handleClick={handleClick}
+              />
+            ))}
           </div>
 
-          {/* onClick of term it will shows the term image and term description  */}
-
+          {/* Term Display */}
           <div className="" id="forPrint">
-            <div className=" flex flex-wrap py-11 px-5  p-3 drop-shadow-md  dark:bg-gray-800 bg-white rounded-lg my-4 ">
-              <div className=" pr-2 h-[286px] flex justify-center items-center w-[240px] sm:w-[320px] md:w-[320px] lg:w-[320px] xl:w-[320px]  overflow-hidden">
+            <div className="flex flex-wrap py-11 px-5 p-3 drop-shadow-md dark:bg-gray-800 bg-white rounded-lg my-4">
+              <div className="pr-2 h-[286px] flex justify-center items-center w-[240px] sm:w-[320px] md:w-[320px] lg:w-[320px] xl:w-[320px] overflow-hidden">
                 <img
                   src={TermImg}
                   alt=""
                   className="m-auto rounded-lg max-h-[286px] transition duration-300 ease-in-out hover:scale-110"
                 />
               </div>
-
-              <div className=" pl-2 w-[240px] sm:w-[320px] md:w-[320px] lg:w-[320px] xl:w-[320px] ">
+              <div className="pl-2 w-[240px] sm:w-[320px] md:w-[320px] lg:w-[320px] xl:w-[320px] ">
                 {TermDis}
               </div>
             </div>
-            {/* creating a shadow effect */}
-            <div className="flex justify-center my-2 ">
-              <p className="mx-auto  h-3 w-60 bg-black opacity-5  rounded-[100%] shadow-xl"></p>
+
+            <div className="flex justify-center my-2">
+              <p className="mx-auto h-3 w-60 bg-black opacity-5 rounded-[100%] shadow-xl"></p>
             </div>
-            {/* It's next and previous button to navigate between cards */}
+
+            {/* Next and Previous buttons */}
             <div className="flex justify-center items-center">
               <MdNavigateBefore
-                className="text-5xl cursor-pointer dark:text-white hover:text-red-400  "
+                className="text-5xl cursor-pointer dark:text-white hover:text-red-400"
                 onClick={prevCard}
               />
-              {/* It's showing active cards and number of cards */}
               <span className="ml-10">{active + 1}/</span>
               <span className="mr-10">{carddata.term.length}</span>
               <MdNavigateNext
-                className="text-5xl cursor-pointer dark:text-white hover:text-red-400  "
+                className="text-5xl cursor-pointer dark:text-white hover:text-red-400"
                 onClick={nextCard}
               />
             </div>
           </div>
 
-          {/* button for share, download, print  */}
-          <div className=" flex lg:flex-col  lg:space-y-5 my-4  rounded-lg  md:justify-center">
+          {/* Share, Download, Print buttons */}
+          <div className="flex lg:flex-col lg:space-y-5 my-4 rounded-lg md:justify-center">
             <div
               onClick={() => setVisible(true)}
-              className="bg-white dark:bg-gray-800 flex cursor-pointer  drop-shadow-md hover:scale-105 rounded-lg ml-5 p-2 h-10"
+              className="bg-white dark:bg-gray-800 flex cursor-pointer drop-shadow-md hover:scale-105 rounded-lg ml-5 p-2 h-10"
             >
               <TfiBackRight className="text-2xl mx-2" />
               Share
             </div>
-            <div className="bg-white dark:bg-gray-800 flex cursor-pointer  drop-shadow-md hover:scale-105 rounded-lg ml-5 p-2 h-10">
+            <div className="bg-white dark:bg-gray-800 flex cursor-pointer drop-shadow-md hover:scale-105 rounded-lg ml-5 p-2 h-10">
               <BsCloudDownload className="text-2xl mx-2" />
               Download
             </div>
@@ -181,7 +153,6 @@ const FlashCardsDetails = () => {
           </div>
         </div>
       </div>
-
       <ShareModel onClose={onClose} visible={visible} />
     </>
   );
