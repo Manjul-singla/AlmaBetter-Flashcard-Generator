@@ -1,17 +1,15 @@
-// Import necessary modules and components from React and other libraries.
 import React, { useEffect, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import { TfiBackRight } from "react-icons/tfi";
 import { BsCloudDownload } from "react-icons/bs";
 import { BsPrinter } from "react-icons/bs";
-import ShareModel from "./ShareModel"; // Importing a component named ShareModel.
-import TermListItem from "./TermListItem"; // Importing a component named TermListItem.
-import { useSelector } from "react-redux"; // Importing the useSelector hook from Redux.
-import { useNavigate, useParams } from "react-router-dom"; // Importing hooks for navigation and route parameters.
-import Details_IMG from "./Images/Details_IMG.gif"; // Importing an image.
+import ShareModel from "./ShareModel";
+import TermListItem from "./TermListItem";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import Details_IMG from "./Images/Details_IMG.gif";
 
-// Define a functional component named FlashCardsDetails.
 const FlashCardsDetails = () => {
   // Extract route parameter 'id'.
   const { id } = useParams();
